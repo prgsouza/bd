@@ -7,7 +7,7 @@ Contém os artefatos da seguintes disciplina:
 
 Equipe
 
-* _Filipe Aguiar (faac)_*
+* _Filipe Aguiar (faacc)_*
 * José Lamartine (jls7)
 * Maxwell Volnei (mvs3)
 * Pedro Rodolfo (prgs)
