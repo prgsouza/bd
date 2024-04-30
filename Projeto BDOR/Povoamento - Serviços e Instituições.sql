@@ -5,7 +5,7 @@ VALUES (
   (SELECT REF(e) FROM tb_enfermeiro e WHERE e.matricula = '96103121985'),
   'CAR',
   'Cardiologia',
-  15
+  65
 );
 
 
@@ -16,7 +16,7 @@ VALUES (
   (SELECT REF(e) FROM tb_enfermeiro e WHERE e.matricula = '40600635380'),
   'ONCO',
   'Oncologia',
-  30
+  60
 );
 
 
@@ -26,7 +26,7 @@ VALUES (
   (SELECT REF(e) FROM tb_enfermeiro e WHERE e.matricula = '48189564451'),
   'RADIO',
   'RADIOLOGIA',
-  30
+  70
 );
 
 
