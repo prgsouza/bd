@@ -38,6 +38,7 @@ CREATE TYPE tp_enfermeiro UNDER tp_colaborador (
 CREATE OR REPLACE TYPE tp_servico AS OBJECT (
     medico ref tp_medico,
     enfermeiro ref tp_enfermeiro,
+    colaborador ref tp_colaborador,
     codigo VARCHAR2(5),
     nome VARCHAR2(50),
     capacidade NUMBER(3)
@@ -110,6 +111,13 @@ CREATE TABLE tb_instituicao OF tp_instituicao (
     CONSTRAINT tb_enfermeiro_pkey PRIMARY KEY (matricula)
 );
 
+ CREATE TABLE tb_colaborador OF tp_colaborador (
+    CONSTRAINT tb_colaborador_nome_not_null CHECK (nome IS NOT NULL),
+    CONSTRAINT tb_colaborador_cpf_not_null CHECK (cpf IS NOT NULL),
+    CONSTRAINT tb_colaborador_cpf_unique UNIQUE (cpf),
+    CONSTRAINT tb_colaborador_pkey PRIMARY KEY (matricula)
+);
+
 CREATE TABLE tb_servico OF tp_servico (
    CONSTRAINT tb_servico_medico_responsavel_not_null CHECK (medico IS NOT NULL),
    CONSTRAINT tb_servico_enfermeiro_responsavel_not_null CHECK (enfermeiro IS NOT NULL),
@@ -117,6 +125,7 @@ CREATE TABLE tb_servico OF tp_servico (
    CONSTRAINT tb_servico_pkey PRIMARY KEY (codigo),
    medico WITH ROWID REFERENCES tb_medico,
    enfermeiro WITH ROWID REFERENCES tb_enfermeiro
+   
 );
 
 CREATE TABLE tb_estudante OF tp_estudante (
