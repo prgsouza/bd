@@ -1,34 +1,55 @@
 ﻿INSERT INTO tb_servico 
 (medico, enfermeiro, codigo, nome, capacidade)
 VALUES (
-  (SELECT REF(m) FROM tb_medico m WHERE m.matricula = '46324635698'),
-  (SELECT REF(e) FROM tb_enfermeiro e WHERE e.matricula = '96103121985'),
+  (SELECT REF(m) FROM tb_medico m WHERE m.matricula = '15640859267'),
+  (SELECT REF(e) FROM tb_enfermeiro e WHERE e.matricula = '22138193686'),
   'CAR',
   'Cardiologia',
   65
 );
 
-
 INSERT INTO tb_servico 
 (medico, enfermeiro, codigo, nome, capacidade)
 VALUES (
-  (SELECT REF(m) FROM tb_medico m WHERE m.matricula = '26406318465'),
-  (SELECT REF(e) FROM tb_enfermeiro e WHERE e.matricula = '40600635380'),
+  (SELECT REF(m) FROM tb_medico m WHERE m.matricula = '5693783162'),
+  (SELECT REF(e) FROM tb_enfermeiro e WHERE e.matricula = '48715488212'),
   'ONCO',
   'Oncologia',
   60
 );
 
-
 INSERT INTO tb_servico (medico, enfermeiro, codigo, nome, capacidade)
 VALUES (
-  (SELECT REF(m) FROM tb_medico m WHERE m.matricula = '10875678374'),
-  (SELECT REF(e) FROM tb_enfermeiro e WHERE e.matricula = '48189564451'),
+  (SELECT REF(m) FROM tb_medico m WHERE m.matricula = '27376512255'),
+  (SELECT REF(e) FROM tb_enfermeiro e WHERE e.matricula = '74238031306'),
   'RADIO',
   'RADIOLOGIA',
   70
 );
 
+UPDATE tb_medico m
+SET servico = (SELECT REF(s) FROM tb_servico s WHERE s.codigo = 'CAR')
+WHERE m.matricula = '15640859267'
+
+UPDATE tb_enfermeiro e
+SET servico = (SELECT REF(s) FROM tb_servico s WHERE s.codigo = 'CAR')
+WHERE e.matricula = '22138193686'
+
+UPDATE tb_medico m
+SET servico = (SELECT REF(s) FROM tb_servico s WHERE s.codigo = 'ONCO')
+WHERE m.matricula = '5693783162'
+
+UPDATE tb_enfermeiro e
+SET servico = (SELECT REF(s) FROM tb_servico s WHERE s.codigo = 'ONCO')
+WHERE e.matricula = '48715488212'
+
+UPDATE tb_medico m
+SET servico = (SELECT REF(s) FROM tb_servico s WHERE s.codigo = 'RADIO')
+WHERE m.matricula = '27376512255'
+
+UPDATE tb_enfermeiro e
+SET servico = (SELECT REF(s) FROM tb_servico s WHERE s.codigo = 'RADIO')
+WHERE e.matricula = '74238031306'
 
 INSERT INTO tb_instituicao (nome, cnpj, endereco, telefone)
 VALUES (

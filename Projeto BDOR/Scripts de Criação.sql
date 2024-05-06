@@ -6,15 +6,12 @@
     cep VARCHAR2(9)
 );
 
-
 CREATE OR REPLACE TYPE tp_telefone AS OBJECT (
     cod_area VARCHAR2(2),
     numero VARCHAR2(9)
 );
 
-
 CREATE OR REPLACE TYPE tp_telefones AS VARRAY(3) OF tp_telefone;
-
 
 CREATE OR REPLACE TYPE  tp_instituicao AS OBJECT (
     endereco tp_endereco,
@@ -23,7 +20,6 @@ CREATE OR REPLACE TYPE  tp_instituicao AS OBJECT (
     cnpj VARCHAR2(14)
 );
 
-
 CREATE OR REPLACE TYPE tp_colaborador AS OBJECT (
     matricula VARCHAR2(11),
     nome VARCHAR2(255),
@@ -31,16 +27,13 @@ CREATE OR REPLACE TYPE tp_colaborador AS OBJECT (
     lotacao VARCHAR2(50)
 ) NOT FINAL;
 
-
 CREATE TYPE tp_medico UNDER tp_colaborador (
     crm VARCHAR2(8)
 );
 
-
 CREATE TYPE tp_enfermeiro UNDER tp_colaborador (
     coren VARCHAR2(9)
 );
-
 
 CREATE OR REPLACE TYPE tp_servico AS OBJECT (
     medico ref tp_medico,
@@ -50,9 +43,7 @@ CREATE OR REPLACE TYPE tp_servico AS OBJECT (
     capacidade NUMBER(3)
 );
 
-
 ALTER TYPE tp_colaborador add attribute (servico ref tp_servico) CASCADE;
-
 
 CREATE OR REPLACE TYPE tp_estudante AS OBJECT (
     tipo_estudante VARCHAR2(20),
@@ -68,7 +59,6 @@ CREATE OR REPLACE TYPE tp_estudante AS OBJECT (
     registro_conselho VARCHAR2(9),
     MEMBER FUNCTION obter_estudante RETURN REF tp_estudante
 )
-
 
 CREATE OR REPLACE TYPE BODY  tp_estudante AS 
 MEMBER FUNCTION obter_estudante(cpf_in VARCHAR2) RETURN REF tp_estudante IS
@@ -96,13 +86,11 @@ CREATE OR REPLACE TYPE tp_vaga AS OBJECT (
     indica_ativa NUMBER(1)
 );
 
-
 CREATE TABLE tb_instituicao OF tp_instituicao (
     CONSTRAINT tb_instituicao_nome_not_null CHECK (nome IS NOT NULL),
     CONSTRAINT tb_instituicao_cnpj_check CHECK (LENGTH(cnpj) = 14),
     CONSTRAINT tb_instituicao_pkey PRIMARY KEY (cnpj)
 );
-
 
  CREATE TABLE tb_medico OF tp_medico (
     CONSTRAINT tb_medico_nome_not_null CHECK (nome IS NOT NULL),
@@ -110,10 +98,8 @@ CREATE TABLE tb_instituicao OF tp_instituicao (
     CONSTRAINT tb_medico_crm_not_null CHECK (crm IS NOT NULL),
     CONSTRAINT tb_medico_crm_unique UNIQUE (crm),
     CONSTRAINT tb_medico_cpf_unique UNIQUE (cpf),
-    CONSTRAINT tb_medico_pkey PRIMARY KEY (matricula),
-    servico WITH ROWID REFERENCES tb_servico
+    CONSTRAINT tb_medico_pkey PRIMARY KEY (matricula)
 );
-
 
  CREATE TABLE tb_enfermeiro OF tp_enfermeiro (
     CONSTRAINT tb_enfermeiro_nome_not_null CHECK (nome IS NOT NULL),
@@ -121,10 +107,8 @@ CREATE TABLE tb_instituicao OF tp_instituicao (
     CONSTRAINT tb_enfermeiro_coren_not_null CHECK (coren IS NOT NULL),
     CONSTRAINT tb_enfermeiro_coren_unique UNIQUE (coren),
     CONSTRAINT tb_enfermeiro_cpf_unique UNIQUE (cpf),
-    CONSTRAINT tb_enfermeiror_pkey PRIMARY KEY (matricula),
-    servico WITH ROWID REFERENCES tb_servico
+    CONSTRAINT tb_enfermeiro_pkey PRIMARY KEY (matricula)
 );
-
 
 CREATE TABLE tb_servico OF tp_servico (
    CONSTRAINT tb_servico_medico_responsavel_not_null CHECK (medico IS NOT NULL),
@@ -134,7 +118,6 @@ CREATE TABLE tb_servico OF tp_servico (
    medico WITH ROWID REFERENCES tb_medico,
    enfermeiro WITH ROWID REFERENCES tb_enfermeiro
 );
-
 
 CREATE TABLE tb_estudante OF tp_estudante (
     CONSTRAINT tb_estudante2_cpf_check CHECK (LENGTH(cpf) = 11),
@@ -148,10 +131,14 @@ CREATE TABLE tb_estudante OF tp_estudante (
     instituicao WITH ROWID REFERENCES tb_instituicao
 );
 
-
+CREATE SEQUENCE codigo_vaga
+    START WITH 1
+    INCREMENT BY 1
+    NOCACHE;
+    
 CREATE TABLE tb_vaga OF tp_vaga (
+    codigo DEFAULT codigo_vaga.NEXTVAL PRIMARY KEY,
     CONSTRAINT tb_vaga_indica_ativa_check_not_null CHECK (indica_ativa IS NOT NULL),
-    CONSTRAINT tb_vaga_pkey PRIMARY KEY (codigo),
     estudante WITH ROWID REFERENCES tb_estudante,
     servico WITH ROWID REFERENCES tb_servico
 );
